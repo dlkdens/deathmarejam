@@ -4,56 +4,64 @@ using UnityEngine;
 
 public class PlayerMov : MonoBehaviour
 {
-    // Física do corpo do jogador
-    public Rigidbody2D per_corpo;
 
     // Velocidade que o jogador se locomove
-    public float vel;
-
+    public float moveSpeed;
     // Força do pulo do jogador
-    public float forcaPulo;
+    public float jumpForce;
+    // Força do deslize na parede
+    public float wallSlideSpeed;
+    // Layer do chão
+    public LayerMask groundLayer;
 
-    public LayerMask chao;
+    // Física e colisor do corpo do jogador
+    private Rigidbody2D rb_corpo;
+    private Collider2D col;
 
-    // Direção que o jogador está virado/indo
-    private float dir;
+    // Verifica se o jogador está no chão e colidindo com a parede
+    private bool isGrounded = false;
+    private bool isCollidingWithWall = false;
 
-    private bool colideParede = false;
-    private bool estaNoChao;
+    public Transform posPe;
 
-    // Start is called before the first frame update
+    // É executado APENAS no primeiro frame após a cena ser carregada
     void Start()
     {
-        
+        rb_corpo = GetComponent<Rigidbody2D>();
+        col = GetComponent<Collider2D>();
+    }
+
+    void Update()
+    {
+        isGrounded = Physics2D.OverlapCircle(posPe.position, 0.3f, groundLayer);
+
+        // Verifica se o jogador está no chão e se pressionou o botão de espaço para realizar a ação de pular
+        if (isGrounded && Input.GetKeyDown(KeyCode.Space))
+            rb_corpo.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        // <- = -1
-        // -> = 1
-        dir = Input.GetAxisRaw("Horizontal");
+        float moveHorizontal = Input.GetAxisRaw("Horizontal");
 
-        // Movimento básico do jogador, adiciona velocidade no eixo X
-        per_corpo.velocity = new Vector2(dir * vel, per_corpo.velocity.y);
+        Vector2 movement = new Vector2(moveHorizontal * moveSpeed, rb_corpo.velocity.y);
 
-        // Pulo do jogador caso o mesmo pressione a Barra de Espaço
-        if(Input.GetKeyDown(KeyCode.Space) && estaNoChão)
-        {
-            // Adiciona a velocidade no eixo Y (cima) multiplicado pela força do pulo
-            per_corpo.velocity = Vector2.up * forcaPulo;
-        }
+        if (isCollidingWithWall && !isGrounded && rb_corpo.velocity.y < 0f)
+            movement = new Vector2(moveHorizontal * wallSlideSpeed, rb_corpo.velocity.y);
+
+        rb_corpo.velocity = movement;
     }
 
-    void OnCollisionEnter2D(Collision2D col)
+    void OnCollisionEnter2D(Collision2D coll)
     {
-        if(col.collider.tag == "parede")
-            colideParede = true;
+        if(coll.collider.tag == "parede")
+            isCollidingWithWall = true;
     }
 
-    void OnCollisionExit2D(Collision2D col)
+    void OnCollisionExit2D(Collision2D coll)
     {
-        if (col.collider.tag == "parede")
-            colideParede = false;
+        if (coll.collider.tag == "parede")
+            isCollidingWithWall = false;
     }
 }
