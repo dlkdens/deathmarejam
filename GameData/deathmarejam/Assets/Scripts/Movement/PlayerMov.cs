@@ -7,28 +7,36 @@ public class PlayerMov : MonoBehaviour
 
     // Velocidade que o jogador se locomove
     public float moveSpeed;
+    // Direção que o jogador está olhando
+    public float inputAxis;
     // Força do pulo do jogador
     public float jumpForce;
-    // Força do deslize na parede
-    public float wallSlideSpeed;
     // Layer do chão
     public LayerMask groundLayer;
 
     // Física e colisor do corpo do jogador
     private Rigidbody2D rb_corpo;
-    private Collider2D col;
 
-    // Verifica se o jogador está no chão e colidindo com a parede
+    // Verifica se o jogador está no chão
     private bool isGrounded = false;
-    private bool isCollidingWithWall = false;
 
     public Transform posPe;
+
+    // Seção de instância caso eu precise usar alguma variável pública daqui (eu vou sim)
+    public static PlayerMov Instance;
+
+    void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
+    }
 
     // É executado APENAS no primeiro frame após a cena ser carregada
     void Start()
     {
         rb_corpo = GetComponent<Rigidbody2D>();
-        col = GetComponent<Collider2D>();
     }
 
     void Update()
@@ -43,25 +51,15 @@ public class PlayerMov : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        float moveHorizontal = Input.GetAxisRaw("Horizontal");
+        Vector3 movement = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, 0f);
+        transform.position += movement * Time.deltaTime * moveSpeed;
 
-        Vector2 movement = new Vector2(moveHorizontal * moveSpeed, rb_corpo.velocity.y);
+        inputAxis = Input.GetAxisRaw("Horizontal");
 
-        if (isCollidingWithWall && !isGrounded && rb_corpo.velocity.y < 0f)
-            movement = new Vector2(moveHorizontal * wallSlideSpeed, rb_corpo.velocity.y);
-
-        rb_corpo.velocity = movement;
+        if (inputAxis > 0)
+            transform.eulerAngles = new Vector2(0f, 0f);
+        if (inputAxis < 0)
+            transform.eulerAngles = new Vector2(0f, 180f);
     }
 
-    void OnCollisionEnter2D(Collision2D coll)
-    {
-        if(coll.collider.tag == "parede")
-            isCollidingWithWall = true;
-    }
-
-    void OnCollisionExit2D(Collision2D coll)
-    {
-        if (coll.collider.tag == "parede")
-            isCollidingWithWall = false;
-    }
 }
