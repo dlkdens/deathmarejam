@@ -15,10 +15,10 @@ public class PlayerMov : MonoBehaviour
     public LayerMask groundLayer;
 
     // Física e colisor do corpo do jogador
-    private Rigidbody2D rb_corpo;
+    public Rigidbody2D rb_corpo;
 
     // Verifica se o jogador está no chão
-    private bool isGrounded = false;
+    public bool isGrounded = false;
 
     public Transform posPe;
 
@@ -39,27 +39,35 @@ public class PlayerMov : MonoBehaviour
         rb_corpo = GetComponent<Rigidbody2D>();
     }
 
+    // É executado TODO frame
     void Update()
     {
         isGrounded = Physics2D.OverlapCircle(posPe.position, 0.3f, groundLayer);
 
         // Verifica se o jogador está no chão e se pressionou o botão de espaço para realizar a ação de pular
         if (isGrounded && Input.GetKeyDown(KeyCode.Space))
+        {
+
+            isGrounded = false;
             rb_corpo.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-    }
+        }
+            
 
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        Vector3 movement = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, 0f);
-        transform.position += movement * Time.deltaTime * moveSpeed;
-
+        // Direção que o jogador está indo/olhando
         inputAxis = Input.GetAxisRaw("Horizontal");
 
         if (inputAxis > 0)
             transform.eulerAngles = new Vector2(0f, 0f);
         if (inputAxis < 0)
             transform.eulerAngles = new Vector2(0f, 180f);
+
+    }
+
+    // Chamado a cada intervalo fixo, bom pra usar pra calculo de física, colisões e movimentos
+    void FixedUpdate()
+    {
+        Vector3 movement = new Vector3(inputAxis, 0f, 0f);
+        transform.position += movement * Time.deltaTime * moveSpeed;
     }
 
 }
