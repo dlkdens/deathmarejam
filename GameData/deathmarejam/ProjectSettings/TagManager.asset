@@ -10,7 +10,7 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ignore Collisions
   - Water
   - UI
   - chao
@@ -45,4 +45,10 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 1912105389
+    locked: 0
+  - name: Projeteis
+    uniqueID: 4195302975
+    locked: 0
+  - name: UI Cenario
+    uniqueID: 1573462185
     locked: 0

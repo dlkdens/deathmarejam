@@ -7,22 +7,27 @@ public class PlayerMov : MonoBehaviour
 
     // Velocidade que o jogador se locomove
     public float moveSpeed;
-    // Direção que o jogador está olhando
+    // Direcao que o jogador esta olhando
     public float inputAxis;
-    // Força do pulo do jogador
-    public float jumpForce;
-    // Layer do chão
+
+    [Header("Pulo do Jogador")]
+    // Forca do pulo do jogador - WG -> without gun
+    public float jumpWG; 
+    public float jumpGun;
+    private float jumpForce;
+
+    // Layer do chao
     public LayerMask groundLayer;
 
-    // Física e colisor do corpo do jogador
+    // Fisica e colisor do corpo do jogador
     public Rigidbody2D rb_corpo;
 
-    // Verifica se o jogador está no chão
+    // Verifica se o jogador esta no chao
     public bool isGrounded = false;
 
     public Transform posPe;
 
-    // Seção de instância caso eu precise usar alguma variável pública daqui (eu vou sim)
+    // Secao de instancia caso eu precise usar alguma variavel publica daqui (eu vou sim)
     public static PlayerMov Instance;
 
     void Awake()
@@ -33,18 +38,19 @@ public class PlayerMov : MonoBehaviour
             Destroy(gameObject);
     }
 
-    // É executado APENAS no primeiro frame após a cena ser carregada
+    // E executado APENAS no primeiro frame apos a cena ser carregada
     void Start()
     {
+        jumpForce = jumpWG;
         rb_corpo = GetComponent<Rigidbody2D>();
     }
 
-    // É executado TODO frame
+    // E executado TODO frame
     void Update()
     {
         isGrounded = Physics2D.OverlapCircle(posPe.position, 0.3f, groundLayer);
 
-        // Verifica se o jogador está no chão e se pressionou o botão de espaço para realizar a ação de pular
+        // Verifica se o jogador estï¿½ no chï¿½o e se pressionou o botï¿½o de espaï¿½o para realizar a aï¿½ï¿½o de pular
         if (isGrounded && Input.GetKeyDown(KeyCode.Space))
         {
 
@@ -53,7 +59,7 @@ public class PlayerMov : MonoBehaviour
         }
             
 
-        // Direção que o jogador está indo/olhando
+        // Direcaoo que o jogador esta indo/olhando
         inputAxis = Input.GetAxisRaw("Horizontal");
 
         if (inputAxis > 0)
@@ -63,11 +69,19 @@ public class PlayerMov : MonoBehaviour
 
     }
 
-    // Chamado a cada intervalo fixo, bom pra usar pra calculo de física, colisões e movimentos
+    // Chamado a cada intervalo fixo, bom pra usar pra calculo de fï¿½sica, colisï¿½es e movimentos
     void FixedUpdate()
     {
         Vector3 movement = new Vector3(inputAxis, 0f, 0f);
         transform.position += movement * Time.deltaTime * moveSpeed;
+    }
+
+    public void SwitchJump(bool gun)
+    {
+        if(gun)
+            jumpForce = jumpGun;
+        else
+            jumpForce = jumpWG;
     }
 
 }

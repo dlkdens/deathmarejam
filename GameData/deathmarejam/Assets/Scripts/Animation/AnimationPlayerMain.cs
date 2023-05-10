@@ -4,6 +4,17 @@ using UnityEngine;
 
 public class AnimationPlayerMain : MonoBehaviour
 {
+    // Secao de instancia caso eu precise usar alguma variavel publica daqui (eu vou sim)
+    public static AnimationPlayerMain Instance;
+
+    void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
+    }
+
     public Animator pBody, pLegs;
     public RuntimeAnimatorController pBodyCtrl, pBodyGun1, pBodyGun2;
 
@@ -28,8 +39,6 @@ public class AnimationPlayerMain : MonoBehaviour
                 pBody.runtimeAnimatorController = pBodyGun2;
             break;
         }
-        
-        
 
         // Pernas
         pLegs.SetFloat("x", Mathf.Abs(PlayerMov.Instance.inputAxis));
