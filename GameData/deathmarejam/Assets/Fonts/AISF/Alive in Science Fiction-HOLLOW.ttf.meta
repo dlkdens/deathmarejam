@@ -1,0 +1,25 @@
+fileFormatVersion: 2
+guid: 3be39966b897d1840a16714feb1cb899
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Alive in a Science Fiction
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 78f24b002f64e1148b777478dfc656f0, type: 3}
+  - {fileID: 12800000, guid: 69adf906c83bb1842817207c8a6ca1df, type: 3}
+  - {fileID: 12800000, guid: 39b4ce2b7a9e5bc4fa930b363339da5d, type: 3}
+  - {fileID: 12800000, guid: 749e0f42f607e28489b6809b51bf068b, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

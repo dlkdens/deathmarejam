@@ -16,7 +16,7 @@ public class PlatformMain : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(playerUpside && Input.GetAxisRaw("Vertical") == -1)
+        if(playerUpside && Input.GetAxisRaw("Vertical") == -1 && PlayerMov.Instance.playerCanMove)
             coll.enabled = false;
     }
 
@@ -38,7 +38,7 @@ public class PlatformMain : MonoBehaviour
 
     IEnumerator ResetCollider()
     {
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(0.75f);
         playerUpside = false;
         coll.enabled = true;
     }

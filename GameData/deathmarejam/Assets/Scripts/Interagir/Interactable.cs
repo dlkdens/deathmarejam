@@ -8,7 +8,6 @@ public class Interactable : MonoBehaviour
     public bool isRange;
     public KeyCode interactKey;
     public UnityEvent interactAction;
-    public GameObject interactVisual;
 
     void LateUpdate()
     {

@@ -43,12 +43,21 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Background
+    uniqueID: 2825450649
+    locked: 0
+  - name: Foreground
+    uniqueID: 2975385533
+    locked: 0
   - name: Player
     uniqueID: 1912105389
     locked: 0
-  - name: Projeteis
+  - name: Furniture
+    uniqueID: 3129436739
+    locked: 0
+  - name: Projectile
     uniqueID: 4195302975
     locked: 0
-  - name: UI Cenario
+  - name: UI Scene
     uniqueID: 1573462185
     locked: 0

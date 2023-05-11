@@ -33,7 +33,7 @@ public class GunShootManager : MonoBehaviour
             isReloading = false;
         }
 
-        if((Input.GetKey(KeyCode.J) || Input.GetMouseButton(0)) && cooldownTimer > attackCooldown && pM.selectGun == 1 && !isReloading)
+        if((Input.GetKey(KeyCode.J) || Input.GetMouseButton(0)) && cooldownTimer > attackCooldown && pM.selectGun == 1 && !isReloading && PlayerMov.Instance.playerCanMove)
         {
                 if(pistolMagazine > 0)
                     FireShoot();
@@ -45,7 +45,7 @@ public class GunShootManager : MonoBehaviour
                     
         }
 
-        if(pistolMagazine < maxMagazine && ammoPlayer > 0 && Input.GetKeyDown(KeyCode.R) && !isReloading)
+        if(pistolMagazine < maxMagazine && ammoPlayer > 0 && Input.GetKeyDown(KeyCode.R) && !isReloading && PlayerMov.Instance.playerCanMove)
         {
             StartCoroutine("ReloadPistol");
         }
