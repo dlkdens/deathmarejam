@@ -71,9 +71,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4825ace578bdb241b098d90093852f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactVisual: {fileID: 6105261513901681149, guid: 74a975beb300ef14eaadb64e247aa348, type: 3}
   isRange: 0
   interactKey: 102
+  needKey: 1
   interactAction:
     m_PersistentCalls:
       m_Calls: []

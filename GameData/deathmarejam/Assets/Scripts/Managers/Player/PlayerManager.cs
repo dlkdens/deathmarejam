@@ -32,36 +32,35 @@ public class PlayerManager : MonoBehaviour
 
     void Update()
     {
-        if ((Input.GetKeyDown("1") || Input.GetKeyDown(KeyCode.X)) && selectGun != 0)
+        if(PlayerMov.Instance.playerCanMove)
         {
-            selectGun = 0;
-            //HandCheck(selectGun);
-        }
-        else if (Input.GetKeyDown("2") && playerHand[0])
-        {
-            selectGun = 1;
-            //HandCheck(selectGun);
-            lastGun = 1;
-        }
-        else if (Input.GetKeyDown("3") && playerHand[1])
-        {
-            selectGun = 2;
-            //HandCheck(selectGun);
-            lastGun = 2;
-        }
-        else if ((!playerHand[0] && selectGun == 1) || (!playerHand[1] && selectGun == 2))
-        {
-            selectGun = 0;
-            //HandCheck(selectGun);
-        }
+            if ((Input.GetKeyDown("1") || Input.GetKeyDown(KeyCode.X)) && selectGun != 0)
+            {
+                selectGun = 0;
+            }
+            else if (Input.GetKeyDown("2") && playerHand[0])
+            {
+                selectGun = 1;
+                lastGun = 1;
+            }
+            else if (Input.GetKeyDown("3") && playerHand[1])
+            {
+                selectGun = 2;
+                lastGun = 2;
+            }
+            else if ((!playerHand[0] && selectGun == 1) || (!playerHand[1] && selectGun == 2))
+            {
+                selectGun = 0;
+            }
 
-        else if(selectGun == 0 && Input.GetKeyDown(KeyCode.X))
-        {
-            selectGun = lastGun;
-            //HandCheck(selectGun);
-        }
+            else if(selectGun == 0 && Input.GetKeyDown(KeyCode.X))
+            {
+                selectGun = lastGun;
+            }
 
-        HandCheck(selectGun);
+            HandCheck(selectGun);
+        }
+        
 
 
         

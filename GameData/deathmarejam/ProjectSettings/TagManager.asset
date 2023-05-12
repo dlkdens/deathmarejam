@@ -6,6 +6,8 @@ TagManager:
   tags:
   - chaoEscada
   - playerFeet
+  - bullet
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -15,7 +17,7 @@ TagManager:
   - UI
   - chao
   - parede
-  - 
+  - Enemys_Layer
   - 
   - 
   - 
@@ -49,11 +51,11 @@ TagManager:
   - name: Foreground
     uniqueID: 2975385533
     locked: 0
-  - name: Player
-    uniqueID: 1912105389
-    locked: 0
   - name: Furniture
     uniqueID: 3129436739
+    locked: 0
+  - name: Player
+    uniqueID: 1912105389
     locked: 0
   - name: Projectile
     uniqueID: 4195302975

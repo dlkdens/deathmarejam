@@ -14,6 +14,7 @@ public class Bullet : MonoBehaviour
         bltRB = GetComponent<Rigidbody2D>();
         Physics2D.IgnoreCollision(GetComponent<Collider2D>(), PlayerManager.Instance.GetComponent<Collider2D>());
         Physics2D.IgnoreLayerCollision(0,3);
+        Physics2D.IgnoreLayerCollision(3,3);
 
         Destroy(gameObject, 3f);
     }
@@ -23,7 +24,7 @@ public class Bullet : MonoBehaviour
         transform.position += new Vector3(bulletForce * direction * Time.deltaTime, 0, 0);
     }
 
-    void OnTriggerEnter2D()
+    void OnTriggerEnter2D(Collider2D other)
     {
         Destroy(gameObject);
     }  

@@ -47,6 +47,21 @@ public class AnimationPlayerMain : MonoBehaviour
             pLegs.SetFloat("y", PlayerMov.Instance.rb_corpo.velocity.y);
             pLegs.SetBool("isGrounded", PlayerMov.Instance.isGrounded);
         }
+
+        else
+        {
+            if(PlayerManager.Instance.selectGun == 0)
+            {
+                pBody.SetFloat("x", 0f);
+                pBody.SetFloat("y", PlayerMov.Instance.rb_corpo.velocity.y);
+                pBody.SetBool("isGrounded", PlayerMov.Instance.isGrounded);
+            }
+            
+            
+            pLegs.SetFloat("x", 0f);
+            pLegs.SetFloat("y", PlayerMov.Instance.rb_corpo.velocity.y);
+            pLegs.SetBool("isGrounded", PlayerMov.Instance.isGrounded);
+        }
         
     }
 }

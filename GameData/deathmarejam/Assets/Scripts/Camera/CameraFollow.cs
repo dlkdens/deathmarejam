@@ -4,6 +4,16 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
+    public static CameraFollow Instance;
+
+    void Awake()
+    {
+        if(Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
+    }
+
     public Transform target;
     public Vector3 offset;
     public float smooth;

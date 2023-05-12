@@ -7,16 +7,21 @@ public class Interactable : MonoBehaviour
 {
     public bool isRange;
     public KeyCode interactKey;
+    public bool needKey = true;
     public UnityEvent interactAction;
 
     void LateUpdate()
     {
-        if(isRange)
+        if(isRange && needKey)
         {
             PlayerManager.Instance.NotifyPlayer(isRange);
             if(Input.GetKeyDown(interactKey))
                 interactAction.Invoke();
-        }   
+        }
+        else if(isRange)
+        {
+            interactAction.Invoke();
+        }
             
     }
 
