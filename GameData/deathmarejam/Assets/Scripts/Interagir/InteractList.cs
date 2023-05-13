@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class InteractList : MonoBehaviour
 {
+    // ESTE É UM CÓDIGO CHEIO, MAS CHEIO, MUITO CHEIO, DE GAMBIARRA, PROMETO DIMINUIR ELE QUANDO TIVER MAIS TEMPO, 
+    // TEM MUITA VARIÁVEL QUE É DECLARADA REPETIDAS VEZES (exemplo de uma gambiarra q tem entre várias).
+
     public static InteractList Instance;
 
     void Awake()
@@ -27,6 +30,7 @@ public class InteractList : MonoBehaviour
 
     [TextArea(3,10)]
     public List<string> dialogueGuardTxt = new List<string>();
+    public GameObject pistolUI;
     public GameObject guardTxt;
     public GameObject guard;
     public Animator guardAnim;
@@ -80,6 +84,8 @@ public class InteractList : MonoBehaviour
         yield return new WaitForSeconds(3f);
 
         guardAnim.SetTrigger("die_wg");
+
+        pistolUI.SetActive(true);
 
         pmv.playerCanMove = true;
         pmngr.playerHand[0] = true;
@@ -178,6 +184,8 @@ public class InteractList : MonoBehaviour
         CameraFollow.Instance.offset.x = 18;
         CameraFollow.Instance.offset.y = 5;
 
+        yield return new WaitForSeconds(1f);
+
         ventilacaoAnim.SetTrigger("open");
 
         yield return new WaitForSeconds(1f);
@@ -191,5 +199,133 @@ public class InteractList : MonoBehaviour
 
     }
 
+    #endregion
+
+    //Evento Sala da Assistente
+    #region EVENTO_ASSISTENTE_SCRIPT
+
+    [Header("Assistente - 1")]
+
+    [TextArea(3,10)]
+    public List<string> falasAss = new List<string>();
+    public List<GameObject> personsFala = new List<GameObject>();
+    public GameObject nextInteract;
+    public Text dialogueAssTxt;
+    public Animator keypad2;
+    public GameObject gunUI2;
+
+    public List<Transform> spawnPositions = new List<Transform>();
+    public List<GameObject> enemiesSpawn = new List<GameObject>();
+
+    public void firstContactAss(GameObject assObjT)
+    {
+        Destroy(assObjT);
+        pmv.playerCanMove = false;
+
+        StartCoroutine("assDefense");
+    }
+
+    private IEnumerator assDefense()
+    {
+        dialogueAssTxt.text = "";
+        personsFala[0].SetActive(true);
+        personsFala[1].SetActive(true);
+
+        foreach(char letter in falasAss[0].ToCharArray())
+        {
+            dialogueAssTxt.text += letter;
+
+            yield return new WaitForSeconds(0.03f);
+        }
+
+        yield return new WaitForSeconds(3f);
+
+        personsFala[1].SetActive(false);
+        personsFala[2].SetActive(true);
+
+        dialogueAssTxt.text = "";
+
+        foreach(char letter in falasAss[1].ToCharArray())
+        {
+            dialogueAssTxt.text += letter;
+
+            yield return new WaitForSeconds(0.03f);
+        }
+
+        yield return new WaitForSeconds(3f);
+
+        personsFala[0].SetActive(false);
+        personsFala[1].SetActive(false);
+        personsFala[2].SetActive(false);
+        personsFala[3].SetActive(false);
+        personsFala[4].SetActive(false);
+
+        personsFala[5].SetActive(true);
+
+        pmv.playerCanMove = true;
+
+        int timer = 0;
+
+        while(timer <= 15)
+        {
+            Instantiate(enemiesSpawn[Random.Range(0,3)], spawnPositions[Random.Range(0,2)]);
+            timer++;
+            yield return new WaitForSeconds(6f);
+        }
+
+
+        yield return new WaitForSeconds(6f);
+        
+        personsFala[3].SetActive(true);
+        personsFala[4].SetActive(true);
+
+        personsFala[5].SetActive(false);
+
+        nextInteract.SetActive(true);
+    }
+
+    public void secondContactAss()
+    {
+        Destroy(nextInteract);
+        StartCoroutine("lastAssContact");
+    }
+
+    private IEnumerator lastAssContact()
+    {
+        pmv.playerCanMove = false;
+
+        dialogueAssTxt.text = "";
+        personsFala[0].SetActive(true);
+        personsFala[1].SetActive(true);
+
+        foreach(char i in falasAss[2])
+        {
+            dialogueAssTxt.text += i;
+            yield return new WaitForSeconds(0.03f);
+        }
+        yield return new WaitForSeconds(3f);
+
+        keypad2.SetTrigger("open");
+        pmv.playerCanMove = true;
+        pmngr.playerHand[1] = true;
+        gunUI2.SetActive(true);
+
+        dialogueAssTxt.text = "";
+        personsFala[0].SetActive(false);
+        personsFala[1].SetActive(false);
+
+    }
+
+    #endregion
+
+    //Fechar a porta da sala do boss
+    #region BOSS_DOOR_LOCK
+    public Animator doorBoss;
+
+    public void doorBossLock(GameObject i)
+    {
+        Destroy(i);
+        doorBoss.SetTrigger("close");
+    }
     #endregion
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GunShootManager : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class GunShootManager : MonoBehaviour
     public int ammoPlayer;
     public int maxMagazine;
     public int pistolMagazine;
+    public Text magazineInfoTxt;
 
     [Header("Audio")]
     public AudioSource source;
@@ -26,6 +28,7 @@ public class GunShootManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        magazineInfoTxt.text = pistolMagazine + "/" + maxMagazine;
         if(pM.selectGun != 1)
         {
             source.Stop();

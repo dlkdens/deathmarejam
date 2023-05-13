@@ -51,8 +51,6 @@ public class PlayerMov : MonoBehaviour
     // E executado TODO frame
     void Update()
     {
-        //isGrounded = Physics2D.OverlapCircle(posPe.position, 0.3f, groundLayer);
-
         // Verifica se o jogador esta no chao e se pressionou o botao de espaao para realizar a acao de pular
         if (isGrounded && Input.GetKeyDown(KeyCode.Space) && playerCanMove)
         {

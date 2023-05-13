@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -10,6 +11,13 @@ public class PlayerManager : MonoBehaviour
 
     public GameObject pistolObj, blasterObj;
     public GameObject notifyObj;
+
+    public float healthPlayer;
+    public float healthMax;
+    public Image fillHealth;
+
+    public List<GameObject> playerCorpse = new List<GameObject>();
+    public GameObject hitSprite;
 
     // Secao de instancia caso eu precise usar alguma variavel publica daqui (eu vou sim)
     public static PlayerManager Instance;
@@ -32,6 +40,12 @@ public class PlayerManager : MonoBehaviour
 
     void Update()
     {
+        if(healthPlayer <= 0)
+        {
+            SceneControl.Instance.panelLose.SetActive(true);
+            Time.timeScale = 0;
+            PlayerMov.Instance.playerCanMove = false;
+        }
         if(PlayerMov.Instance.playerCanMove)
         {
             if ((Input.GetKeyDown("1") || Input.GetKeyDown(KeyCode.X)) && selectGun != 0)
@@ -59,11 +73,7 @@ public class PlayerManager : MonoBehaviour
             }
 
             HandCheck(selectGun);
-        }
-        
-
-
-        
+        }   
     }
 
     void HandCheck(int num)
@@ -105,5 +115,39 @@ public class PlayerManager : MonoBehaviour
             notifyObj.GetComponent<SpriteRenderer>().flipX = true;
         
         notifyObj.SetActive(n);
+    }
+
+    public void PlayerGetDamage(float damage)
+    {
+        float direction;
+
+        if(transform.localEulerAngles.y == 0)
+            direction = -1;
+        else
+            direction = 1;
+        
+        healthPlayer -= damage;
+        fillHealth.fillAmount = healthPlayer / healthMax;
+        PlayerMov.Instance.rb_corpo.AddForce(Vector2.right * direction * 21f, ForceMode2D.Impulse);
+
+        StartCoroutine("PlayerTomou");
+
+    }
+
+    private IEnumerator PlayerTomou()
+    {
+        // foreach(GameObject i in playerCorpse)
+        //     i.SetActive(false);
+        
+        PlayerMov.Instance.playerCanMove = false;
+        // hitSprite.SetActive(true);
+        
+        yield return new WaitForSeconds(0.5f);
+
+        // foreach(GameObject i in playerCorpse)
+        //     i.SetActive(true);
+        
+        PlayerMov.Instance.playerCanMove = true;
+        // hitSprite.SetActive(false);
     }
 }
