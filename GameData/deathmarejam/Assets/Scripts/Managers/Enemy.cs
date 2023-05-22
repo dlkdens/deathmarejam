@@ -76,8 +76,10 @@ public class Enemy : MonoBehaviour
             enemyAnim.SetTrigger("hit");
             rb_enemy.AddForce(Vector2.right * direction * 2f, ForceMode2D.Impulse);
             healthEnemy -= 50;
+            
+            if(isBoss)
+                BossLifeUI.Instance.bossLifeAtual = healthEnemy;
         }
-           
     }
 
     void OnCollisionEnter2D(Collision2D other)

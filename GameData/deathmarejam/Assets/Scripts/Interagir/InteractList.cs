@@ -303,7 +303,9 @@ public class InteractList : MonoBehaviour
             dialogueAssTxt.text += i;
             yield return new WaitForSeconds(0.03f);
         }
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(6f);
+
+        dialogueAssTxt.text = "";
 
         keypad2.SetTrigger("open");
         pmv.playerCanMove = true;
@@ -321,11 +323,13 @@ public class InteractList : MonoBehaviour
     //Fechar a porta da sala do boss
     #region BOSS_DOOR_LOCK
     public Animator doorBoss;
+    public GameObject bossUILifeIndicator;
 
     public void doorBossLock(GameObject i)
     {
         Destroy(i);
         doorBoss.SetTrigger("close");
+        bossUILifeIndicator.SetActive(true);
     }
     #endregion
 }
